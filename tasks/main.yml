@@ -1,0 +1,75 @@
+---
+
+- name: Install UNOMP dependecies for Debian/Ubuntu OS family
+  apt: pkg="{{ item }}" state=present
+  when: ansible_os_family == 'Debian'
+  with_items:
+    - build-essential
+    - libssl-dev
+    - npm
+    - nodejs
+    - nodejs-legacy
+    - git
+  tags: ["packages","unomp"]
+
+
+- name: Install UNOMP source
+  git: repo="https://github.com/UNOMP/unified-node-open-mining-portal.git" dest="/var/lib/unomp"
+  tags: ["packages","unomp"]
+  ignore_errors: yes
+
+- name: Install UNOMP packages based on package.json.
+  npm: path="/var/lib/unomp"
+  tags: ["packages","unomp"]
+
+- name: config
+  copy:
+    content: "{{ config | to_json }}"
+    dest: /var/lib/unomp/config.json
+  tags: ["packages","unomp","config"]
+
+- name: coins
+  copy:
+    content: "{{ item | to_json }}"
+    dest: "/var/lib/unomp/coins/{{ item.name }}.json"
+  with_items: "{{ coins }}"
+  tags: ["unomp","config"]
+
+- name: pool
+  copy:
+    content: "{{ item | to_json }}"
+    dest: /var/lib/unomp/pool_configs/{{ item.name }}.json
+  tags: ["packages","unomp","config"]
+  with_items: "{{ pools }}"
+  tags: ["unomp","config"]
+
+- name: Install packages - pm2
+  npm:
+    name: pm2
+    global: yes
+
+- name: Installing startup script - pm2
+  command: "pm2 startup"
+
+- name: Managing apps
+  shell: "pm2 start init.js --name unomp"
+  args:
+    chdir: "/var/lib/unomp/"
+  ignore_errors: yes
+
+- name: Managing apps
+  shell: "pm2 save"
+  args:
+    chdir: "/var/lib/unomp/"
+
+
+
+# - name: configure ansible-role-unomp
+#   template: src=ansible-role-unomp.conf.j2 dest=/etc/ansible-role-unomp.conf
+#   notify: restart ansible-role-unomp
+#   tags: ["configuration","ansible-role-unomp"]
+#
+# - name: ensure ansible-role-unomp is started/stopped
+#   service: name=ansible-role-unomp state={{ ansible-role-unomp_service_state }} enabled={{ ansible-role-unomp_service_enabled }}
+#   tags: ["service","ansible-role-unomp"]
+#

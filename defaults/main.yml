@@ -1,0 +1,21 @@
+---
+
+# Package states: installed or latest
+ansible-role-unomp_pkg_state: installed
+
+# Service states: started or stopped
+ansible-role-unomp_service_state: started
+
+# Service enabled on startup: yes or no
+ansible-role-unomp_service_enabled: yes
+
+
+
+coins:
+  - name: litecoin
+    symbol: LIT
+    algorithm: scrypt
+
+pools: []
+
+config: {}

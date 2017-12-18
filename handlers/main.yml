@@ -1,0 +1,17 @@
+---
+
+- name: restart pm2
+  service:
+    name: pm2-root
+    state: restarted
+  when: pm2_service_state != 'stopped'
+
+- name: reload pm2
+  service:
+    name: pm2-root
+    state: reloaded
+  when: pm2_service_state != 'stopped'
+
+- name: update pm2
+  shell: pm2 update
+  when: pm2_service_state != 'stopped'

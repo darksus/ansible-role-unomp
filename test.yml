@@ -1,0 +1,7 @@
+---
+
+- hosts: unomp
+  remote_user: root
+  roles:
+    - ansible-role-redis
+    - ansible-role-unomp
