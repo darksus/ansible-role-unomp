@@ -15,3 +15,8 @@
 - name: update pm2
   shell: pm2 update
   when: pm2_service_state != 'stopped'
+
+- name: restart ansible-role-unomp
+  service:
+    name: pm2-root
+    state: reloaded

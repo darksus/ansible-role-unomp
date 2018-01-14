@@ -28,11 +28,17 @@
     dest: /var/lib/unomp/config.json
   tags: ["packages","unomp","config"]
 
-- name: coins
-  copy:
-    content: "{{ item | to_json }}"
-    dest: "/var/lib/unomp/coins/{{ item.name }}.json"
-  with_items: "{{ coins }}"
+# - name: coins
+#   copy:
+#     content: "{{ item | to_json }}"
+#     dest: "/var/lib/unomp/coins/{{ item.name }}.json"
+#   with_items: "{{ coins }}"
+#   tags: ["unomp","config"]
+
+- name: configure coins
+  template: src=coin.js.j2 dest="/var/lib/unomp/coins/{{ item.name }}.json"
+  notify: restart ansible-role-unomp
+  with_items: "{{ pools }}"
   tags: ["unomp","config"]
 
 - name: pool
@@ -52,7 +58,7 @@
   command: "pm2 startup"
 
 - name: Managing apps
-  shell: "pm2 start init.js --name unomp"
+  shell: "pm2 start init.js -f --name unomp"
   args:
     chdir: "/var/lib/unomp/"
   ignore_errors: yes

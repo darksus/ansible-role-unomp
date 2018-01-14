@@ -1,0 +1,41 @@
+---
+
+pools:
+
+  - name: samplecoin
+    symbol: samplecoin
+    algorithm: scrypt
+    coin: samplecoin.json
+    enabled: true
+    auxes: []
+    address: Sevp8452DwHYqND2h3QbjXUDG1v9Dy1VfD
+    rewardRecipients: []
+    paymentProcessing:
+      enabled: enable
+      paymentInterval: 30
+      minimumPayment: 0.01
+      daemon:
+        host: 127.0.0.1
+        port: 9999
+        user: rpcusername
+        password: rpcpassword
+    ports:
+      '1000':
+        diff: 1
+        varDiff:
+          minDiff: 1
+          maxDiff: 655535
+          targetTime: 15
+          retargetTime: 90
+          variancePercent: 30
+
+    daemons:
+    - host: 127.0.0.1
+      port: 9999
+      user: 1
+      password: x
+    p2p:
+      enabled: false
+      host: 127.0.0.1
+      port: 8888
+      disableTransactions: true

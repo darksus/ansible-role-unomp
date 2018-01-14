@@ -9,13 +9,7 @@ ansible-role-unomp_service_state: started
 # Service enabled on startup: yes or no
 ansible-role-unomp_service_enabled: yes
 
-
-
-coins:
-  - name: litecoin
-    symbol: LIT
-    algorithm: scrypt
-
+coins: []
 pools: []
 
 config: {}
