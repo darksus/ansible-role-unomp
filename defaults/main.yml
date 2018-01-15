@@ -12,4 +12,53 @@ ansible-role-unomp_service_enabled: yes
 coins: []
 pools: []
 
-config: {}
+config:
+  logLevel: debug
+  logColors: true
+  cliPort: 17117
+  clustering:
+    enabled: true
+    forks: auto
+  defaultPoolConfigs:
+    blockRefreshInterval: 1000
+    jobRebroadcastTimeout: 55
+    connectionTimeout: 600
+    emitInvalidBlockHashes: false
+    validateWorkerUsername: true
+    tcpProxyProtocol: false
+    banning:
+      enabled: true
+      time: 600
+      invalidPercent: 50
+      checkThreshold: 500
+      purgeInterval: 300
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      db: 0
+      password: ''
+  website:
+    enabled: true
+    host: 0.0.0.0
+    siteTitle: Pool
+    port: 8080
+    stratumHost: pool
+    stats:
+      updateInterval: 15
+      historicalRetention: 43200
+      hashrateWindow: 300
+    adminCenter:
+      enabled: false
+      password: 'pool'
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    db: 0
+    password: ''
+  switching: []
+  profitSwitch:
+    enabled: false
+    updateInterval: 600
+    depth: 0.9
+    usePoloniex: true
+    useBittrex: true
